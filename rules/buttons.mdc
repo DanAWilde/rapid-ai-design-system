@@ -3,3 +3,62 @@ description:
 globs: 
 alwaysApply: true
 ---
+rule "button-base" {
+  description = """
+  All buttons share a common base style:
+  - Font family: Cerebri Sans
+  - Font weight: semibold
+  - Border radius: radius.sm
+  - Cursor: pointer
+  - No border unless specified by variant
+  """
+  when = "creating any button"
+  then = """
+  Apply theme.typography.fontFamily,
+  theme.typography.weights.semibold,
+  theme.radius.sm,
+  cursor: pointer,
+  border: none (unless overridden by variant).
+  """
+}
+
+rule "button-variants" {
+  description = """
+  Button style variants:
+  - Primary: solid background using theme.colors.primary.base, text color theme.colors.text.inverse
+  - Secondary: lighter background using theme.colors.background.cta-neutral, text color theme.colors.text.default
+  - Outline: transparent background, 1px solid border with theme.colors.primary.base, text color theme.colors.primary.base
+  - Transparent: fully transparent background, no border, text color theme.colors.primary.base
+  - Danger: solid background using theme.colors.status.red, text color theme.colors.text.inverse
+  """
+  when = "choosing button variant"
+  then = """
+  Apply appropriate background, border, and text color from theme.colors based on the selected variant.
+  """
+}
+
+rule "button-sizes" {
+  description = """
+  Button sizing options:
+  - Small: font size theme.typography.sizes.textSm, line height theme.typography.lineHeights.textSm, padding theme.spacing[100] vertical and theme.spacing[150] horizontal
+  - Medium: font size theme.typography.sizes.textMd, line height theme.typography.lineHeights.textMd, padding theme.spacing[100] vertical and theme.spacing[200] horizontal
+  - Large: font size theme.typography.sizes.textLg, line height theme.typography.lineHeights.textLg, padding theme.spacing[150] vertical and theme.spacing[200] horizontal
+  """
+  when = "selecting button size"
+  then = """
+  Apply corresponding font size, line height, and padding from theme.typography and theme.spacing based on the selected size.
+  """
+}
+
+rule "button-icons" {
+  description = """
+  Buttons may include optional icons:
+  - Leading icon: placed before the label with a gap of theme.spacing[100]
+  - Trailing icon: placed after the label with a gap of theme.spacing[100]
+  - Icon size should match the button's font size
+  """
+  when = "adding icons to buttons"
+  then = """
+  Align icons inline with text, apply theme.spacing[100] as gap between icon and text, and set icon size to match the button's font size.
+  """
+}
